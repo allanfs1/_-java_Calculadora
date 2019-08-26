@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -40,7 +42,7 @@ public class Primeira extends JFrame{
           
     public void primeiraTela(){
         
-        String[] vet = new String[10];
+        String[] vet = new String[10];////Vector de Historico
         int LARGURA =200;
         //--------------------------------------------------
         for(int i=0;i<10;i++)
@@ -61,7 +63,7 @@ public class Primeira extends JFrame{
         bt6  = new JButton("6"); bt7  = new JButton("7");
         bt8  = new JButton("8"); bt9  = new JButton("9");
         bt10  = new JButton("=");
-        jbox =new JComboBox(vet);
+        jbox =new JComboBox(vet);///J Cuboo box
         cn =  getContentPane();
         
         
@@ -99,6 +101,18 @@ public class Primeira extends JFrame{
         //-----------------------------------------------------------------------
         cn.add(bt0);cn.add(bt1);cn.add(bt2);cn.add(bt3);cn.add(bt4);cn.add(bt5);
         cn.add(bt6);cn.add(bt7);cn.add(bt8);cn.add(bt9);cn.add(bt10);
+        
+         jbox.addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent ie) {
+                if(ie.getStateChange() == ItemEvent.SELECTED){
+                    System.out.println("Selecionado"+jbox.getSelectedItem());
+                }
+            }
+             
+         });
+        
+        
         
         
                   /* Eventos do botão*/ 
