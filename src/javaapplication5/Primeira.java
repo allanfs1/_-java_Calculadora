@@ -13,11 +13,13 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -36,6 +38,8 @@ public class Primeira extends JFrame{
     private Container cn;
     private JButton bt0,bt1,bt2,bt3,bt4,bt5,bt6,bt7,bt8,bt9,bt10;  
     private String operando,valorx,valory;
+    private JLabel  label;
+    private JPanel painelBorda; 
     /**
      * @param args the command line arguments
      */
@@ -63,7 +67,10 @@ public class Primeira extends JFrame{
         bt6  = new JButton("6"); bt7  = new JButton("7");
         bt8  = new JButton("8"); bt9  = new JButton("9");
         bt10  = new JButton("=");
-        jbox =new JComboBox(vet);///J Cuboo box
+        jbox =new JComboBox(vet);///J Cuboo 
+        label = new JLabel("OFF/ON");
+        painelBorda = new JPanel();
+        
         cn =  getContentPane();
         
         
@@ -91,7 +98,11 @@ public class Primeira extends JFrame{
         bt3.setBounds(80,100,45,30);bt4.setBounds(130,100,45,30);bt5.setBounds(180,100,45,30);
         bt6.setBounds(80,135,45,30);bt7.setBounds(130,135,45,30);bt8.setBounds(180,135,45,30);
         bt9.setBounds(80,170,45,30);bt10.setBounds(130,170,45,30);
-        
+        label.setBounds(10,0,200,100);
+        painelBorda.setBounds(60,45,180,190);
+        painelBorda.setBorder(BorderFactory.createTitledBorder("Painel"));
+       
+      
         cn.add(labe);
         cn.add(jtxt);
         cn.add(jtxt2);
@@ -101,7 +112,10 @@ public class Primeira extends JFrame{
         //-----------------------------------------------------------------------
         cn.add(bt0);cn.add(bt1);cn.add(bt2);cn.add(bt3);cn.add(bt4);cn.add(bt5);
         cn.add(bt6);cn.add(bt7);cn.add(bt8);cn.add(bt9);cn.add(bt10);
+        cn.add(label);
+        cn.add(painelBorda);
         
+                        /* Jcubo box */
          jbox.addItemListener(new ItemListener(){
             @Override
             public void itemStateChanged(ItemEvent ie) {
