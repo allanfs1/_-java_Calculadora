@@ -13,6 +13,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -29,6 +32,7 @@ import javax.swing.event.DocumentListener;
  * @author Allan
  */
 public class Primeira extends JFrame{
+    
 
     private JLabel labe;
     private JTextField jtxt;
@@ -37,28 +41,30 @@ public class Primeira extends JFrame{
     private JComboBox jbox;
     private Container cn;
     private JButton bt0,bt1,bt2,bt3,bt4,bt5,bt6,bt7,bt8,bt9,bt10;  
-    private String operando,valorx,valory;
+    private String  operador;
     private JLabel  label;
     private JPanel painelBorda; 
+    private String aux = " ";
+    private Double valorx,valory;
+    private int i=0;  
     /**
      * @param args the command line arguments
      */
           
     public void primeiraTela(){
+       
         
-        String[] vet = new String[10];////Vector de Historico
+        String[] vet = new String[1];////Vector de Historico
+        List<String> boxvt = new ArrayList<String>();
         int LARGURA =200;
+        vet[0] = "NULL";
         //--------------------------------------------------
-        for(int i=0;i<10;i++)
-            vet[i] = "Historico:" + i;            
-        
-        for(int i=0;i<10;i++)
-           System.out.println("id:"+vet[i]);
+     
         //-----------------------------------------------------------
         labe = new JLabel("Nome:");
         jtxt = new JTextField();
         jtxt2 = new JTextField(); 
-        btn1  = new JButton("ok");
+        btn1  = new JButton("Info");
         btn2  = new JButton("+"); btn3 = new JButton("-");btn4  = new JButton("*");  btn5  = new JButton("/");     
         btn6  = new JButton("S"); btn7 = new JButton("X");
         bt0  = new JButton("0");  bt1  = new JButton("1");
@@ -70,6 +76,7 @@ public class Primeira extends JFrame{
         jbox =new JComboBox(vet);///J Cuboo 
         label = new JLabel("OFF/ON");
         painelBorda = new JPanel();
+        
         
         cn =  getContentPane();
         
@@ -88,10 +95,10 @@ public class Primeira extends JFrame{
         
         ///Operadores
         btn1.setBounds(5,200,50,30);btn1.setBackground(Color.lightGray);///BTN ok
-        btn2.setBounds(250,(LARGURA/3),80,30);
-        btn3.setBounds(250,(LARGURA/2),80,30);
-        btn4.setBounds(250,135,80,30);
-        btn5.setBounds(250,170,80,30);
+        btn2.setBounds(250,(LARGURA/3),50,30);
+        btn3.setBounds(250,(LARGURA/2),50,30);
+        btn4.setBounds(250,135,50,30);
+        btn5.setBounds(250,170,50,30);
         btn6.setBounds(5,65,50,30);btn7.setBounds(5,100,50,30);///Botoes Binarios
         //-----------------------------------------------------------------------
         bt0.setBounds(80,65,45,30);bt1.setBounds(130,65,45,30);bt2.setBounds(180,65,45,30);
@@ -101,8 +108,9 @@ public class Primeira extends JFrame{
         label.setBounds(10,0,200,100);
         painelBorda.setBounds(60,45,180,190);
         painelBorda.setBorder(BorderFactory.createTitledBorder("Painel"));
-       
       
+        
+    
         cn.add(labe);
         cn.add(jtxt);
         cn.add(jtxt2);
@@ -115,27 +123,23 @@ public class Primeira extends JFrame{
         cn.add(label);
         cn.add(painelBorda);
         
-                        /* Jcubo box */
+                        /*Jcubo box*/
          jbox.addItemListener(new ItemListener(){
             @Override
             public void itemStateChanged(ItemEvent ie) {
                 if(ie.getStateChange() == ItemEvent.SELECTED){
-                    System.out.println("Selecionado"+jbox.getSelectedItem());
+                    jtxt2.setText(String.valueOf(jbox.getSelectedItem()));
                 }
             }
              
          });
-        
-        
-        
-        
-                  /* Eventos do botão*/ 
-                       /*Botão ok*/
+     
+                       /* Eventos do botão*/ 
+                           /*Botão ok*/
          btn1.addActionListener(new ActionListener(){ 
             @Override
             public void actionPerformed(ActionEvent e) {
                System.out.println(btn1.getText()); 
-               JOptionPane.showMessageDialog(btn1,"Calculo Efetuado ok");
                trataBotaoOk();
             }
     
@@ -147,20 +151,21 @@ public class Primeira extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                System.out.println(btn1.getText()); 
-               JOptionPane.showConfirmDialog(cn, "Limpar Estorico");
+               JOptionPane.showConfirmDialog(cn,"Limpar");
                jtxt.setText(" ");
-              
-            }
+               jtxt2.setText(" ");
+               
+      
+           }
     
             });
          
          
-         
-                           /* Stilo */
+                             /*Stilo*/
           btn6.addActionListener(new ActionListener(){ 
             @Override
             public void actionPerformed(ActionEvent e) {
-               JOptionPane.showMessageDialog(btn6,"Mudando Estilo da Calculadora");
+               JOptionPane.showMessageDialog(btn6,"Mudando o Estilo da Calculadora");
                btn1.setBackground(Color.gray);
                btn2.setBackground(Color.gray);
                btn3.setBackground(Color.gray);
@@ -184,85 +189,150 @@ public class Primeira extends JFrame{
             });
          
          
-                          /*Operando*/
+                          /*Operando + */
            btn2.addActionListener(new ActionListener(){
            @Override
             public void actionPerformed(ActionEvent ae) {
-             System.out.println(btn2.getText());
-             operando = btn2.getText();
-              
-           
+             operador = btn2.getText();
+             valorx = Double.parseDouble(jtxt.getText());
+             jtxt.setText(" ");
             }
            });  
            
-                               /*Operando*/
+           
+           
+                         /*Operando - */
            btn3.addActionListener(new ActionListener(){
            @Override
             public void actionPerformed(ActionEvent ae) {
-             System.out.println(btn3.getText());
-             operando = btn3.getText();
-              
+              operador = btn3.getText();
+              valorx = Double.parseDouble(jtxt.getText());
+              jtxt.setText(" ");
             }
-           });  
+           });
+           
+                          /*Operando (*) */
            btn4.addActionListener(new ActionListener(){
            @Override
             public void actionPerformed(ActionEvent ae) {
-             System.out.println(btn4.getText());
-             operando = btn4.getText();
-          
+             operador = btn4.getText();
+             valorx = Double.parseDouble(jtxt.getText());
+             jtxt.setText(" ");
             }
            });  
-           
+                            /*Operando (/)*/
            btn5.addActionListener(new ActionListener(){
            @Override
             public void actionPerformed(ActionEvent ae) {
-             System.out.println(btn5.getText());
-             operando = btn5.getText();
+             operador = btn5.getText();
+             valorx = Double.parseDouble(jtxt.getText());
+             jtxt.setText(" ");
             }
            });  
          
-                          
-                    
+           
+                         /*Operador de (=) */
+           bt10.addActionListener(new ActionListener(){
+           @Override
+            public void actionPerformed(ActionEvent ae){ 
+             valory = Double.parseDouble(jtxt.getText());
+             jtxt.setText(String.valueOf(contaCalculadora(valorx,valory)));
+             boxvt.add(jtxt.getText());
+             jbox.addItem(boxvt.get(i++));
+            
+            }
+           });  
+                 
+                         //Teclas//             
+           bt0.addActionListener(new ActionListener(){
+           @Override
+            public void actionPerformed(ActionEvent ae) {
+             jtxt.setText(jtxt.getText()+bt0.getText());
+            }
+           });
+                  
            bt1.addActionListener(new ActionListener(){
            @Override
             public void actionPerformed(ActionEvent ae) {
-             System.out.println(bt1.getText());
-             valory = bt1.getText();   
+             jtxt.setText(jtxt.getText()+bt1.getText());
             }
            });
+           
             
-           bt2.addActionListener(new ActionListener(){
+           bt2.addActionListener(new ActionListener(){  
            @Override
             public void actionPerformed(ActionEvent ae) {
-             System.out.println(bt2.getText());
-             valorx = bt2.getText();
-           
+             jtxt.setText(jtxt.getText()+bt2.getText());
+             
             }
            });  
-                        
-                             
-   
-                       /*Operador de (=) */
-           bt10.addActionListener(new ActionListener(){
-           @Override
-            public void actionPerformed(ActionEvent ae) {   
-             contaCalculadora(valorx,valory,operando);
-             System.out.println(contaCalculadora(valorx,valory,operando));
 
+           bt3.addActionListener(new ActionListener(){  
+           @Override
+            public void actionPerformed(ActionEvent ae) {
+             jtxt.setText(jtxt.getText()+bt3.getText());
+             
+            }
+           });             
+              
+           bt4.addActionListener(new ActionListener(){  
+           @Override
+            public void actionPerformed(ActionEvent ae) {
+             jtxt.setText(jtxt.getText()+bt4.getText());
+             
             }
            });  
-  
-  
-        
+           
+           bt5.addActionListener(new ActionListener(){  
+           @Override
+            public void actionPerformed(ActionEvent ae) {
+             jtxt.setText(jtxt.getText()+bt5.getText());
+             
+            }
+           });
+           
+           bt6.addActionListener(new ActionListener(){  
+           @Override
+            public void actionPerformed(ActionEvent ae) {
+             jtxt.setText(jtxt.getText()+bt6.getText());
+             
+            }
+           });  
+           
+           bt7.addActionListener(new ActionListener(){  
+           @Override
+            public void actionPerformed(ActionEvent ae) {
+             jtxt.setText(jtxt.getText()+bt7.getText());
+             
+            }
+           });  
+           
+           bt8.addActionListener(new ActionListener(){  
+           @Override
+            public void actionPerformed(ActionEvent ae) {
+             jtxt.setText(jtxt.getText()+bt8.getText());
+             
+            }
+           });
+           
+           bt9.addActionListener(new ActionListener(){  
+           @Override
+            public void actionPerformed(ActionEvent ae) {
+             jtxt.setText(jtxt.getText()+bt9.getText());
+             
+            }
+           });
+           
+ //-------------------------------------------------------------------------------------------
            jtxt.addFocusListener(new FocusListener(){
             @Override
             public void focusGained(FocusEvent fe) {
-               jtxt.setText("0");
+              jtxt.setText("OFF");
             }
 
             @Override
             public void focusLost(FocusEvent fe) {
-                 jtxt.setText("--------------------");
+              jtxt.setText("on");
                
             }
            
@@ -273,12 +343,12 @@ public class Primeira extends JFrame{
           jtxt2.addFocusListener(new FocusListener(){
             @Override
             public void focusGained(FocusEvent fe) {
-               jtxt2.setText("0");
+               jtxt2.setText("OFF");
             }
 
             @Override
             public void focusLost(FocusEvent fe) {
-                jtxt2.setText("-----------------");
+                jtxt2.setText("on");
             }
            
            
@@ -289,18 +359,18 @@ public class Primeira extends JFrame{
     jtxt.getDocument().addDocumentListener(new DocumentListener(){ 
             @Override
             public void insertUpdate(DocumentEvent de) {
-               System.out.println("Inserindo de Dados");
+              // System.out.println("Inserindo de Dados");
             
             }
 
             @Override
             public void removeUpdate(DocumentEvent de) {
-                System.out.println("Remover Dados");
+               // System.out.println("Remover Dados");
             }
 
             @Override
             public void changedUpdate(DocumentEvent de) {
-                System.out.println("Atualisar Dados");
+               // System.out.println("Atualisar Dados");
             }
   
        
@@ -310,37 +380,39 @@ public class Primeira extends JFrame{
     
     public void trataBotaoOk() 
     { 
-        jtxt.setText("dados"); 
+      JOptionPane.showMessageDialog(btn1,"Calculadora vs 1.0");  
     }
  
     
-    private float contaCalculadora(String operax,String operay,String operando){
-        
-       float opx = Float.parseFloat(operax);
-       float opy = Float.parseFloat(operay);
-        
-       float x = 0f;     
-       switch(operando){
-           case "*":
-           x =  opx * opy;
-           break;
-           
-           case "/":
-           x =  opx / opy; 
-           break;
-           
-           case "+":
-           x =  opx + opy;
-           break;
-           
-           case "-":
-           x =  opx - opy;
-           break;
-       } 
-       
-        return x;
-    }
+    private double contaCalculadora(double valorx,double valory){
+    double conta = 0;
     
+    switch(operador){
+     case "+":
+     conta = valorx+valory;    
+     break;
+     
+     case "-":
+     conta = valorx-valory;      
+     break;
+           
+     
+     case "*":
+     conta = valorx*valory;      
+     break;
+           
+     case "/":
+     conta = valorx/valory;      
+     break;
+           
+     
+     default:
+      JOptionPane.showConfirmDialog(cn, "Erro de Operador!");       
+     } 
+       
+       return conta;
+        
+    }
     
     public static void main(String[] args) {
         // TODO code application logic here
